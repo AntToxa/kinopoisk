@@ -1,0 +1,516 @@
+/*begin reset*/
+
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+img, ins, kbd, q, s, samp,
+small, strike, strong,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100.01%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+body {
+    line-height: 1;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+*:focus {
+    outline: none;
+}
+
+/*end reset*/
+
+/* begin Page */
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0 auto;
+    background-color: #6C6C6C;
+    background-image: url('../images/bg-grad.png');
+    background-repeat: repeat-x;
+    height: 100%;
+}
+
+#background-glare {
+    width: 100%;
+    background-image: url('../images/glare.png');
+    background-position: center 0px;
+    background-repeat: no-repeat;
+    left: 0;
+    top: 0;
+}
+
+.cleared {
+    float: none;
+    clear: both;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-size: 1px;
+}
+
+.box-but-back {
+    position: relative;
+    display: block;
+    height: 0px;
+}
+
+#top-but-back {
+    position: absolute;
+    top: 10px;
+    left: 0px;
+}
+
+.helper {
+    display: -moz-inline-box;
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 0px;
+    //zoom : 1;
+    //display : inline;
+}
+
+/* end Page */
+
+
+
+/*begin header*/
+div.header {
+    margin: 0 auto;
+    position: relative;
+    z-index: 0;
+    width: 988px;
+    height: 190px;
+}
+
+
+
+
+
+/*end header*/
+
+/* begin Logo */
+#logo {
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 29px;
+    width: 298px;
+    height: 116px;
+}
+
+#logo a {
+    text-indent: -9000px;
+    display: block;
+    background-image: url('../images/big-logo.png');
+    background-repeat: no-repeat;
+    width: 298px;
+    height: 116px;
+    background-position: 10px center;
+}
+
+/* end Logo */
+
+/* begin Sheet */
+.sheet {
+    position: relative;
+    z-index: 0;
+    margin: 0 auto;
+    width: 1110px;
+    background-image: url('../images/bg.png');
+    background-repeat: repeat-y;
+    background-position: 0 0;
+
+}
+
+.sheet-body {
+    position: relative;
+    z-index: 1;
+    padding-left: 40px;
+    padding-right: 40px;
+
+}
+
+.sheet, .sheet-body {
+  //zoom : 1;
+}
+
+/*for ie6*/
+*html .sheet-body {
+    position: static;
+}
+
+/*for ie6*/
+
+/* end Sheet*/
+
+#content {
+    position: relative;
+    text-align: left;
+    padding: 0 20px 58px;
+}
+
+/*for ie6*/
+/* end content */
+
+/* begin footer*/
+#footer {
+    height: 58px;
+    width: 1030px;
+    margin: 0 auto;
+    padding: 0px 40px;
+    background-image: url('../images/bg.png');
+    background-repeat: repeat-y;
+    background-position: center top;
+    z-index: 0;
+}
+
+.footer-box {
+    text-align: center;
+    position: relative;
+    background: url('../images/bg-footer.png');
+    background-repeat: repeat-x;
+    background-color: #A8A8A8;
+    background-position: center center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #454545;
+}
+
+/*begin tbl-orders*/
+
+#tbl-show-film-info {
+    width: 100%;
+    margin-bottom: 50px;
+    zoom: 1;
+}
+
+.tbl-box {
+    position: relative;
+    z-index: 0;
+    background: transparent url('../images/bg-th.png') 0 0px repeat-y;
+    padding: 0 5px;
+    zoom: 1;
+    overflow: hidden;
+}
+
+.tbl-box .l, .tbl-box .r, .tbl-box .c {
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 43px;
+    z-index: -1;
+    font-size: 1px;
+    line-height: 1px;
+}
+
+.tbl-box .l {
+    left: 0px;
+    width: 10px;
+    background: transparent url('../images/tbl-top-l.png') 0 0 no-repeat;
+}
+
+.tbl-box .r {
+    right: 0px;
+    width: 10px;
+    background: transparent url('../images/tbl-top-r.png') 0 0 no-repeat;
+}
+
+.tbl-box .c {
+    background: transparent url('../images/tbl-top-c.png') 0 0 repeat-x;
+    left: 10px;
+    right: 10px;
+}
+
+#tbl-show-film-info th.tbl-first {
+    border-right: none !important;
+}
+
+#tbl-show-film-info th.tbl-last {
+    border-left: none !important;
+}
+
+#tbl-show-film-info th.tbl-first .tbl-box .c {
+    right: 0px;
+
+}
+
+#tbl-show-film-info th.tbl-first .tbl-box {
+    background-image: none;
+}
+
+#tbl-show-film-info th.tbl-last .tbl-box .c {
+    left: 1px;
+}
+
+#tbl-show-film-info th {
+    font-weight: normal;
+    white-space: nowrap;
+    font-size: 18px;
+    color: #4B4B4B;
+    line-height: 43px;
+    background: transparent url('../images/tbl-top-c.png') 0 0 repeat-x;
+    border-bottom: 1px solid #C1C1C1;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #454545;
+    font-weight: normal;
+    text-decoration: none !important;
+    zoom: 1;
+    z-index: 0;
+    text-align: center;
+}
+
+#tbl-show-film-info th.tbl-first {
+    padding: 0px;
+    background-image: none;
+    border-right: 1px solid #E6E6E6;
+    border-left: none;
+}
+
+#tbl-show-film-info th.tbl-last {
+    padding: 0px;
+    background-image: none;
+    border-right: none;
+    border-left: 1px solid #E6E6E6;
+}
+
+#tbl-show-film-info th.tbl-first .tbl-box {
+    padding: 0px 3px;
+}
+
+#tbl-show-film-info th.tbl-last {
+    background-image: none;
+    background-color: transparent;
+}
+
+#tbl-show-film-info .total {
+    border: none;
+    border-top: 1px solid #C1C1C1;
+}
+
+#tbl-show-film-info .total td {
+    padding: 0;
+    background-image: none;
+    background-color: transparent;
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 20px;
+    color: #4B4B4B;
+    line-height: 43px;
+    text-align: right;
+}
+
+#tbl-show-film-info .total .tbl-box {
+    background-image: none;
+}
+
+#tbl-show-film-info .total td .l {
+    background-image: url('../images/tbl-bottom-l.png');
+}
+
+#tbl-show-film-info .total td .r {
+    background-image: url('../images/tbl-bottom-r.png');
+}
+
+#tbl-show-film-info .total td .c {
+    background-image: url('../images/tbl-bottom-c.png');
+}
+
+#tbl-show-film-info td {
+    background-color: #FFF;
+    border-top: 1px solid #C1C1C1;
+    padding: 10px 3px;
+    background-image: url('../images/bg-td.png');
+    background-position: 0px 0px;
+    background-repeat: repeat-y;
+    font-size: 14px;
+    text-align: center;
+
+}
+
+#tbl-show-film-info .odd td {
+    background-color: #F9F9F9;
+}
+
+#tbl-show-film-info tr:hover td {
+    background-color: #FFFFCC;
+    cursor: pointer;
+}
+
+
+
+#tbl-show-film-info tr.row-content:hover td {
+    background-color: #FFF;
+    cursor: default;
+}
+
+#tbl-show-film-info tr.total:hover td {
+    background-color: transparent;
+    cursor: default;
+}
+
+
+.tbl-name {
+    color: #000;
+    text-decoration: underline;
+}
+
+
+
+/*end tbl-films*/
+
+
+.page-footer {
+    margin: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+div.footer-text {
+    font-weight: bold;
+    display: -moz-inline-box;
+    display: inline-block;
+    vertical-align: middle;
+  //zoom : 1;
+  //display : inline;
+}
+
+/* end PageFooter */
+
+/* begin filter form*/
+
+
+#form-data label {
+    color: #454545;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 30px;
+}
+
+#form-data .input-field {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border: 1px solid #C1C1C1;
+    height: 30px;
+    padding-right: 40px;
+    background: #FFF url('../images/calendar.png') 135px 2px no-repeat;
+    padding-left: 10px;
+    width: 120px;
+    text-align: center;
+    color: #4B4B4B;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 30px;
+}
+
+
+.box-select-date {
+    float: right;
+    margin-bottom: 20px;
+
+}
+
+
+#footer-toolbar {
+    position: relative;
+    display: block;
+    overflow: visible;
+    z-index: 101;
+    zoom: 1;
+}
+
+
+#loading {
+    display: none;
+    width: 128px;
+    height: 43px;
+    background: url("../images/preloder.gif") no-repeat scroll center top transparent;
+}
+
+
+/* liScroll styles */
+
+.tickercontainer {
+    /* the outer div with the black border */
+    background: #fff;
+    width: 350px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.tickercontainer .mask {
+    /* that serves as a mask. so you get a sort of padding both left and right */
+    position: relative;
+    left: 10px;
+    top: 8px;
+    width: 718px;
+    overflow: hidden;
+}
+
+ul.newsticker {
+    /* that's your list */
+    position: relative;
+    left: 350px;
+    font: normal 12px Verdana;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+ul.newsticker li {
+    float: left; /* important: display inline gives incorrect results when you check for elem's width */
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+ul.newsticker a {
+    white-space: nowrap;
+    padding: 0;
+    color: #ff0000;
+    font: bold 10px Verdana;
+    margin: 0 50px 0 0;
+}
+
+ul.newsticker span {
+    margin: 0 10px 0 0;
+    font-weight: bold;
+}
+

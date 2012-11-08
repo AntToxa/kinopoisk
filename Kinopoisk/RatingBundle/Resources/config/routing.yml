@@ -1,0 +1,4 @@
+_kinopoisk:
+    resource: "@KinopoiskRatingBundle/Controller/DefaultController.php"
+    type:     annotation
+    prefix:   /kinopoisk_rating

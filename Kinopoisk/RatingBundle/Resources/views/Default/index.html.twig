@@ -1,0 +1,65 @@
+{% extends "KinopoiskRatingBundle::layout.html.twig" %}
+{% block content %}
+
+    <div class="cleared"></div>
+    <form action="{{path('_kinopoisk_rating_filter')}}" id="form-data" method="post" enctype="text/plain">
+        <div class="box-select-date">
+            <label class="label-field" for="date-filter">Выберите дату:</label>
+            <input type="text" class="input-field" value="{{ app.session.get('filter_date') }}" name="filter_date" id="date-filter"/>
+        </div>
+
+        <div class="cleared"></div>
+    </form>
+    <div class="cleared"></div>
+
+    {% set colspan = 5 %}
+    <table id="tbl-show-film-info">
+        <tr class="no-delete" id="header-film">
+            <th class="tbl-number tbl-first">
+                <div class="tbl-box">
+                    Позиция <span class="l"></span><span class="c">
+                </div>
+            </th>
+            <th class="tbl-name">
+                <div class="tbl-box">Название</div>
+            </th>
+            <th class="tbl-year">
+                <div class="tbl-box">Год</div>
+            </th>
+            <th class="tbl-rating">
+                <div class="tbl-box">Рейтинг</div>
+            </th>
+            <th class="tbl-vote tbl-last">
+                <div class="tbl-box">
+                    <span class="r"></span><span class="c"></span>Количество голосов
+                </div>
+            </th>
+        </tr>
+
+        {% for item in FILM_INFO %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }} " >
+                <td class="td-row-film tbl-position">{{ item.position }}</td>
+                <td class="td-row-film tbl-name">{{ item.film.name }}</td>
+                <td class="td-row-film tbl-year">{{ item.film.year }}</td>
+                <td class="td-row-film tbl-rating">{{ item.rating }}</td>
+                <td class="td-row-film tbl-vote">{{ item.vote }}</td>
+            </tr>
+
+        {% else %}
+            <tr id="no-films">
+                <td class="no-films" align="center" colspan="{{ colspan }}">
+                    - Нет информации -
+                </td>
+            </tr>
+        {% endfor %}
+        <tr class="total no-delete">
+            <td colspan="{{colspan}}">
+                <div class="tbl-box">
+                    <span class="l"></span> <span class="r"></span><span class="c"></span>
+                    &nbsp;
+                </div>
+            </td>
+        </tr>
+
+    </table>
+{% endblock content %}
