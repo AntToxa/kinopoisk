@@ -4,41 +4,70 @@ namespace Kinopoisk\RatingBundle\Model;
 
 use Kinopoisk\RatingBundle\Model\HttpCurlModel;
 use Symfony\Component\DomCrawler\Crawler;
-use Kinopoisk\RatingBundle\Entity\Film;
-use Kinopoisk\RatingBundle\Entity\FilmInfo;
+use Kinopoisk\RatingBundle\Model\KinopoiskRatingModel;
 
 /**
  * Модель для парсинга кинопоиска
  */
-class ParseKinopoiskModel
+class ParseKinopoiskRatingModel
 {
     /**
      * Отпарсенные переменные
      * @var array
      */
     private $parseValues = array();
+
     /**
-     * Экземпляр класса контроллер
-     * @var
+     * Модель для работы с FilmInfo
+     * @var KinopoiskRatingModel
      */
-    private $objController;
+    private $modelRatingKinopoisk;
 
     /**
      * @param $url - url
      */
     public function __construct($url, $objController)
     {
-        $this->objController = $objController;
+        $content = $this->getContent($url);
+        $tableTr = self::getCrowlerTr($content);
+        $this->setParseValues($tableTr);
+        $this->modelRatingKinopoisk = new KinopoiskRatingModel($objController);
+
+    }
+
+    /**
+     * Получаем экземпляр класса Crawler
+     * @param $content - html контент
+     * @param $url - урл
+     * @return mixed
+     */
+    public static function getCrowlerTr($content){
+        $crawler = new Crawler($content);
+        return self::parseTableTr($crawler);
+    }
+
+
+    /**
+     * Устанавливаем отпарсенные значения
+     * @param $tableTr - объект с данными тегов tr таблицы с рейтингами
+     */
+    protected function setParseValues($tableTr){
+        $this->parseValues = array(
+            'positions' => self::parsePositions($tableTr),
+            'names' => self::parseNames($tableTr),
+            'ratings' => self::parseRatings($tableTr),
+            'votes' => self::parseVotes($tableTr),
+        );
+    }
+
+    /**
+     * Получаем контент по урлу
+     * @param $url - url
+     */
+    protected function getContent($url) {
         $client = new HttpCurlModel();
         $content = $client->setRequestMethod('get')->setUrl($url)->sendRequest()->getResponse();
-        $crawler = new Crawler($content, $url);
-        $tableTr = $this->parseTableTr($crawler);
-        $this->parseValues = array(
-            'positions' => $this->parsePositions($tableTr),
-            'names' => $this->parseNames($tableTr),
-            'ratings' => $this->parseRatings($tableTr),
-            'votes' => $this->parseVotes($tableTr),
-        );
+        return $content;
     }
 
     /**
@@ -46,11 +75,11 @@ class ParseKinopoiskModel
      * @param $crawler - объект калсса Crawler
      * @return mixed
      */
-    public function parseTableTr($crawler)
+    public static function parseTableTr($crawler)
     {
         return $crawler->filter('td#block_left > div.block_left > table table')->eq(2)->filter('tr')->reduce(
             function ($node, $i) {
-                if($i>12||$i<2){
+                if($i>11||$i<2){
                     return false;
                 }
 
@@ -61,10 +90,10 @@ class ParseKinopoiskModel
 
     /**
      * Парсим позиции в рейтинге
-     * @param $tr
+     * @param $tr- объект с данными тега tr таблицы с рейтингами
      * @return mixed
      */
-    public function parsePositions($tr)
+    public static function parsePositions($tr)
     {
         return $tr->filter('td')->reduce(
             function ($node, $i) {
@@ -82,7 +111,7 @@ class ParseKinopoiskModel
      * @param $tr - объект с данными тега tr таблицы с рейтингами
      * @return mixed
      */
-    public function parseVotes($tr)
+    public static function parseVotes($tr)
     {
         return $tr->filter('td')->reduce(
             function ($node, $i) {
@@ -100,7 +129,7 @@ class ParseKinopoiskModel
      * @param $tr - объект с данными тега tr таблицы с рейтингами
      * @return mixed
      */
-    public function parseRatings($tr)
+    public static function parseRatings($tr)
     {
         return $tr->filter('td')->reduce(
             function ($node, $i) {
@@ -118,7 +147,7 @@ class ParseKinopoiskModel
      * @param $tr - объект с данными тега tr таблицы
      * @return mixed
      */
-    public function parseNames($tr)
+    public static function parseNames($tr)
     {
         return $tr->filter('td')->reduce(
             function ($node, $i) {
@@ -129,6 +158,22 @@ class ParseKinopoiskModel
                 return $node->nodeValue;
             }
         );
+    }
+
+    /**
+     * Парсит год из названия фильма
+     * @param $name - название фильма
+     */
+    public static function parseYear(&$name)
+    {
+        //$name = utf8_decode($name);
+        if (preg_match('/([^(]+)\(([^)]+)\)/', $name, $matches)) {
+            $name = trim($matches[1]);
+
+            return (int)$matches[2];
+        }
+
+        return 0;
     }
 
     /**
@@ -159,7 +204,7 @@ class ParseKinopoiskModel
             if ($position) {
                 if (isset($names[$ind])) {
                     $name = $names[$ind];
-                    $year = $this->parseYear($name);
+                    $year = self::parseYear($name);
                 }
                 if (isset($ratings[$ind])) {
                     $rating = $ratings[$ind];
@@ -183,21 +228,6 @@ class ParseKinopoiskModel
         return $return;
     }
 
-    /**
-     * Парсит год из названия фильма
-     * @param $name - название фильма
-     */
-    public function parseYear(&$name)
-    {
-        $name = utf8_decode($name);
-        if (preg_match('/([^(]+)\(([^)]+)\)/', $name, $matches)) {
-            $name = trim($matches[1]);
-
-            return (int)$matches[2];
-        }
-
-        return 0;
-    }
 
     /**
      * Сохраняем полученные значения
@@ -208,59 +238,12 @@ class ParseKinopoiskModel
         $values = $this->prepareParseValues();
 
         foreach ($values as $value) {
-            $this->saveFilmEntity($value);
+            $this->modelRatingKinopoisk->saveFilmEntity($value);
         }
 
     }
 
-    /**
-     * Сохраняем сущность фильма
-     * @param $params - параметры
-     */
-    public function saveFilmEntity($params)
-    {
-        $film = new Film();
-        $em = $this->objController->getManager();
-        $checkFilm = $em->getRepository('KinopoiskRatingBundle:Film')->findOneBy(
-            array('name' => $params['name'], 'year' => $params['year'])
-        );
-        if (isset($checkFilm)) {
-            $film = $checkFilm;
-        } else {
-            $film->setName($params['name']);
-            $film->setYear($params['year']);
-            $em->persist($film);
-            $em->flush();
-        }
-        $this->saveFilmInfoEntiy($film, $params);
-    }
 
-    /**
-     * Сохраняем информацию о фильме
-     * @param $film - фильм
-     * @param $params - параметры
-     */
-    public function saveFilmInfoEntiy(Film $film, $params)
-    {
-        $date = date("Y-m-d") . ' 0:0:1';
-        $filmInfo = new FilmInfo();
-        $em = $this->objController->getManager();
-        $checkFilmInfo = $em->getRepository('KinopoiskRatingBundle:FilmInfo')->findOneBy(
-            array('date' => new \DateTime($date), 'film' => $film)
-        );
-        if (isset($checkFilmInfo)) {
-            $filmInfo = $checkFilmInfo;
-        }
-
-        $filmInfo->setDate(new \DateTime($date));
-        $filmInfo->setFilm($film);
-        $filmInfo->setRating($params['rating']);
-        $filmInfo->setVote($params['vote']);
-        $filmInfo->setPosition($params['position']);
-        $em->persist($filmInfo);
-        $em->flush();
-
-    }
 
 
 }

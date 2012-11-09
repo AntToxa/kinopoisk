@@ -4,7 +4,6 @@ $(document).ready(function () {
     });
     $.footer();
     $('#jQueryTpl-table-rows').template('jQueryTpl-table-rows');
-    $('#jQueryTpl-table-rows-empty').template('jQueryTpl-table-rows-empty');
 
     $(".input-field").datepicker({
         regional:"ru",
@@ -12,7 +11,6 @@ $(document).ready(function () {
         onSelect:function (dateText, inst) {
             var form = $('#form-data');
             var url= form.attr("action");
-            //console.log(form.serialize());
             $.ajax({
                 url: url,
                 type: "POST",
@@ -28,10 +26,9 @@ $(document).ready(function () {
                         );
                         if(data.film_info.length){
                             var tpl = $.tmpl('jQueryTpl-table-rows', data.film_info);
-
+                            $('#no-films').hide();
                         }else{
-                           // console.log($.tmpl('jQueryTpl-table-rows-empty', data.film_info));
-                           var tpl = $.tmpl('jQueryTpl-table-rows-empty', [[]]);
+                           $('#no-films').show();
                         }
                         tpl.insertAfter(
                             '#header-film'
@@ -41,7 +38,7 @@ $(document).ready(function () {
                         alert(data.film_info_error);
                     }
                     else{
-                        alert("Произошла неизвестная ошибка.");
+                        alert("Упс! Ошибочка вышла. Попробуйте снова и будет Вам счастье.");
 
                     }
                 }

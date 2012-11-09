@@ -89,7 +89,6 @@ class HttpCurlModel
                 $this->setRequestMethod('get');
                 $this->setCurlOpt(CURLOPT_HEADER, false);
                 $this->setCurlOpt(CURLOPT_RETURNTRANSFER, true);
-                //$this->setCurlOpt(CURLOPT_BINARYTRANSFER, true);
                 break;
             default:
                 $this->setCurlOpt(CURLOPT_HTTPGET, true);

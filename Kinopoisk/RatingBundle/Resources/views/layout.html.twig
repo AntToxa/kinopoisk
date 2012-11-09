@@ -31,7 +31,7 @@
             <div class="header">
                 {% block header %}
                     <div id="logo">
-                        <a href="/" class="ie6" title="Парсер рейтинга сайта Кинопоиск.РУ">Парсер рейтинга сайта Кинопоиск.РУ</a>
+                        <a href="{{ path('_kinopoisk_rating') }}" class="ie6" title="Парсер рейтинга сайта Кинопоиск.РУ">Парсер рейтинга сайта Кинопоиск.РУ</a>
                     </div>
 
                 {% endblock header %}
@@ -65,30 +65,8 @@
 
 </div>
 
-{% raw %}
-
-<script id="jQueryTpl-table-rows" type="text/x-jquery-tmpl">
-<tr class="{{if $data.index%2==0}}even{{else}}odd{{/if}}">
-
-      <td class="td-row-film tbl-position">${position}</td>
-      <td class="td-row-film tbl-name">${name}</td>
-      <td class="td-row-film tbl-year">${year}</td>
-      <td class="td-row-film tbl-rating">${rating}</td>
-      <td class="td-row-film tbl-vote">${vote}</td>
-
-</tr>
-</script>
-<script id="jQueryTpl-table-rows-empty" type="text/x-jquery-tmpl">
-    <tr id="no-films">
-        <td class="no-films" align="center" colspan="5">
-            - Нет информации -
-        </td>
-    </tr>
-
-</script>
-
-
-{% endraw %}
+{% block before_body %}
+{% endblock before_body %}
 
 </body>
 </html>

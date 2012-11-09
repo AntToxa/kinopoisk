@@ -39,19 +39,19 @@
         {% for item in FILM_INFO %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }} " >
                 <td class="td-row-film tbl-position">{{ item.position }}</td>
-                <td class="td-row-film tbl-name">{{ item.film.name }}</td>
-                <td class="td-row-film tbl-year">{{ item.film.year }}</td>
-                <td class="td-row-film tbl-rating">{{ item.rating }}</td>
-                <td class="td-row-film tbl-vote">{{ item.vote }}</td>
+                <td class="td-row-film tbl-name">{{ item.name }}</td>
+                <td class="td-row-film tbl-year">{{ item.year }}</td>
+                <td class="td-row-film tbl-rating">{{ item.rating|number_format(3, '.', ' ') }}</td>
+                <td class="td-row-film tbl-vote">{{ item.vote|number_format(0, '.', ' ') }}</td>
             </tr>
 
-        {% else %}
-            <tr id="no-films">
-                <td class="no-films" align="center" colspan="{{ colspan }}">
-                    - Нет информации -
-                </td>
-            </tr>
         {% endfor %}
+
+        <tr id="no-films"  class="no-delete" {% if FILM_INFO|length > 0 %} style="display:none;" {% endif %}>
+            <td class="no-films" align="center" colspan="{{ colspan }}">
+                - Нет информации -
+            </td>
+        </tr>
         <tr class="total no-delete">
             <td colspan="{{colspan}}">
                 <div class="tbl-box">
@@ -63,3 +63,18 @@
 
     </table>
 {% endblock content %}
+
+
+{% block before_body %}
+    {% raw %}
+<script id="jQueryTpl-table-rows" type="text/x-jquery-tmpl">
+    <tr class="{{if $item.data.position%2==0}}even{{else}}odd{{/if}}">
+        <td class="td-row-film tbl-position">${position}</td>
+        <td class="td-row-film tbl-name">${name}</td>
+        <td class="td-row-film tbl-year">${year}</td>
+        <td class="td-row-film tbl-rating">${rating}</td>
+        <td class="td-row-film tbl-vote">${vote}</td>
+    </tr>
+</script>
+{% endraw %}
+{% endblock before_body %}
